@@ -1,0 +1,30 @@
+<h2>Lista de tags</h2>
+<hr>
+<a href="/tags/criar"><button type="button" class="btn btn-success">Criar nova tag</button></a>
+
+
+{{#each tags}}
+<div class="card mt-4">
+    <div class="card-body">
+        <h4>{{nome}}</h4>
+        <small>Slug: {{slug}}</small>
+        <br>
+        <small>Data de Criação :{{date}}</small>
+        <br>
+
+
+        <a href="/notas?tag={{slug}}"><button type="button" class="btn btn-outline-success mt-4">Ver
+                notas</button></a>
+        <form action="/tags{{_id}}?method=delete" method="POST">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit" class="btn btn-danger mt-2">Deletar tag</button>
+        </form>
+
+
+
+    </div>
+</div>
+{{else}}
+<br>
+<h4>Nenhuma tag registrada...</h4>
+{{/each}}

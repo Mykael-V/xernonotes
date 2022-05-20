@@ -1,0 +1,33 @@
+{{#each erros}}
+<div class="alert alert-danger">{{texto}}</div>
+{{else}}
+
+{{/each}}
+<div class="card">
+    <div class="card-body">
+        <h4>Nova nota</h4>
+        <form action="/notas" method="POST">
+            <label for="titulo">Titulo: </label>
+            <input type="text" name="titulo" class="form-control">
+            <label for="conteudo">Conteudo da nota: </label>
+            <br>
+            <textarea name="conteudo" class="form-control"></textarea>
+            <label for="categoria">Categoria: </label>
+            <select name="categoria" class="custom-select">
+                {{#each categorias}}
+                <option value="{{_id}}">{{nome}}</option>
+                {{else}}
+                <option value="0">Nenhuma categoria registrada</option>
+                {{/each}}
+            </select>
+            <fieldset>
+                <h5> Escolha suas tags </h5>
+                {{#each tags}}
+                <input type="checkbox" name="tags" value="{{_id}}" id="{{_id}}"> <label for="{{_id}}"> {{nome}} </label>
+                {{/each}}
+            </fieldset>
+            <button type="submit" class="btn btn-outline-success">Criar Nota</button>
+        </form>
+    </div>
+
+</div>
