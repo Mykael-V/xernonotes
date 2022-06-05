@@ -12,6 +12,8 @@ const moment = require('moment');
 moment.locale('pt-br');
 
 
+//exibição de notas e filtragem por categorias e tags
+
 router.get('/', async (req, res) => {
     const query = {};
     if (req.query.categoria) {
