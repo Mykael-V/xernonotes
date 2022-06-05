@@ -74,9 +74,21 @@ router.post('/', async (req, res) => {
 
 
 
+//Rota de excluir
 
 
 
+router.get('/:id/deletar', async (req, res) => {
+    try {
+        await Tags.findOneAndDelete({ _id: req.params.id })
+        req.flash('success_msg', 'tag excluida com sucesso')
+    } catch (err) {
+        req.flash('error_msg', 'Erro ao excluir tag')
+    } finally {
+        res.redirect('/tags')
+    }
+
+})
 
 
 module.exports = router
@@ -88,5 +100,4 @@ module.exports = router
 
 
 
-//Rota de excluir
 

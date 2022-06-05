@@ -16,14 +16,19 @@ router.get('/', async (req, res) => {
     const query = {};
     if (req.query.categoria) {
         const categoria = await Categoria.find({ slug: req.query.categoria }).lean();
-        query['categoria'] = categoria ? categoria[0]._id.toString() : null;
+        if (categoria) {
+            query['categoria'] = categoria[0]._id.toString();
+        }
     }
     if (req.query.tag) {
         const tag = await Tags.find({ slug: req.query.tag }).lean();
-        query['tags'] = tag ? tag[0]._id.toString() : null;
+        if (tag) {
+            query['tags'] = tag[0]._id.toString();
+        }
     }
-    Notas.find(query).lean().populate(["categoria", "tags"]).sort({ date: 'desc' }).then((notas) => {
+    Notas.find(query).lean().populate(["categoria", "tags"]).sort({ data: 'desc' }).then((notas) => {
         notas.forEach(nota => {
+            nota.conteudo = nota.conteudo.substring(0, 100) + '...';
             nota.data = moment(nota.data).format('LL')
         })
         res.render('notas/listar', { notas });
@@ -34,6 +39,7 @@ router.get('/', async (req, res) => {
     });
 });
 
+
 //Criação de novas Notas
 
 router.get('/nova', async (req, res) => {
@@ -42,6 +48,18 @@ router.get('/nova', async (req, res) => {
     res.render("notas/criar", {
         tags, categorias
     })
+});
+
+router.get('/:id', (req, res) => {
+    Notas.findOne({ _id: req.params.id }).lean().populate(["categoria", "tags"]).then((nota) => {
+        if (nota) {
+            nota.data = moment(nota.data).format('LL');
+            res.render('notas/show', { nota })
+        } else {
+            req.flash('error_msg', 'houve um erro ao encontrar a nota')
+        }
+    })
+
 })
 
 
@@ -130,8 +148,9 @@ router.post('/:id/editar', async (req, res) => {
 router.get('/:id/deletar', (req, res) => {
     Notas.findOneAndDelete({ _id: req.params.id }).then(() => {
         req.flash('success_msg', 'Nota deletada com sucesso.');
-        req.redirect('/notas')
+        res.redirect('/notas')
     }).catch((err) => {
+        console.log(err)
         req.flash('error_msg', 'Houve um erro ao excluir a nota')
         res.redirect('/notas')
     });

@@ -1,0 +1,13 @@
+<h1>{{nota.titulo}}</h1>
+
+<hr>
+{{nota.conteudo}}
+<hr>
+<h7> Categoria : {{nota.categoria.nome}}</h7>
+<br>
+<span>Tags: </span>
+{{#each nota.tags}}
+<span> {{nome}}; </span>
+{{/each}}
+<br>
+<span>Criado em : {{nota.data}}</span>

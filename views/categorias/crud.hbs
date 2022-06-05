@@ -15,12 +15,11 @@
                 categoria</button></a>
         <a href="/notas?categoria={{slug}}"><button type="button" class="btn btn-outline-success mt-4">Ver
                 notas</button></a>
+        <button type="submit" onclick="deletarCategoria('{{_id}}')" class="btn btn-danger mt-4">Deletar
+            categoria</button>
 
 
-        <form action="/categorias/{{_id}}?method=delete" method="POST">
-            <input type="hidden" name="id" value="{{_id}}">
-            <button type="submit" class="btn btn-danger mt-2">Deletar categoria</button>
-        </form>
+
 
 
 
